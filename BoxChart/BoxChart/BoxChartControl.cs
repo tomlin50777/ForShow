@@ -37,7 +37,7 @@ namespace BoxChartProject
 			DateTime.TryParse(((String)dataTable.Rows[0][xAxisColumnName]).Substring(0, 10), out startDate);
 			DateTime.TryParse(((String)dataTable.Rows[dataTable.Rows.Count - 1][xAxisColumnName]).Substring(0, 10), out endDate);
 			int dateCount = 0;
-			int.TryParse((endDate - startDate).TotalDays + "", out dateCount);
+			int.TryParse((endDate.AddDays(1) - startDate).TotalDays + "", out dateCount);
 			BoxChart newBoxChart = AddItem(color, yMin, yMax, fix);
 			for (int count = 0; count < dateCount; count++)
 			{
