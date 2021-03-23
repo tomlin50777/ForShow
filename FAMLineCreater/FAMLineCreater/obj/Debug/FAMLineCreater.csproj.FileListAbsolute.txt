@@ -1,0 +1,10 @@
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\bin\Debug\FAMLineCreater.exe
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\bin\Debug\FAMLineCreater.pdb
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.csprojAssemblyReference.cache
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.FamTestForm.resources
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.Properties.Resources.resources
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.csproj.GenerateResource.cache
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.exe
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.pdb
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.ColorSetUserControl.resources
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.ValueUserControl.resources
