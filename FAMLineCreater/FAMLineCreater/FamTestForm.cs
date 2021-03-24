@@ -25,13 +25,14 @@ namespace FAMLineCreater
 			judgeValueUserControl.SetTitle("Judge");
 			judgeValueUserControl.SetInit(1);
 			mappingValueUserControl.SetTitle("Mapping");
-			mappingValueUserControl.SetInit(1);
+			mappingValueUserControl.SetInit(3);
 			offsetValueUserControl.SetTitle("Offset");
 			offsetValueUserControl.SetInit(80);
 			offsetValueUserControl.SetLabel("", "");
 			foreach(System.Drawing.Drawing2D.DashStyle dashStyle in Enum.GetValues(typeof(System.Drawing.Drawing2D.DashStyle)).Cast<System.Drawing.Drawing2D.DashStyle>().ToArray())
 				dashTypeListBox.Items.Add(dashStyle.ToString());
-			richTextBox.Text = "0\n1,2\n2,1\n3,4\n4,3\n5\n6,7\n7,6\n8,10\n9\n10,8";
+			dashTypeListBox.SelectedIndex = 2;
+			richTextBox.Text = "0\n1,9\n2,10\n3,8\n4,7\n5,6\n6,5\n7,4\n8,3\n9,1\n10,2";
 		}
 		private void LineCreate()
 		{
@@ -59,6 +60,8 @@ namespace FAMLineCreater
 		private void TestButton_Click(object sender, EventArgs e)
 		{
 			Bitmap bitmap = new Bitmap(1500, 1100);
+			Color color = judgeColorSetUserControl.GetColor();
+			List<int> x = new List<int>();
 			int offser = 50;
 			int lineWidth = 3;
 			LineCreate();
@@ -86,11 +89,11 @@ namespace FAMLineCreater
 
 			for (int countY = offser + lineWidth + offser; countY < bitmap.Height - offser - offser - lineWidth; countY++)
 			{
-				Color[] color = new Color[] { Color.Aqua, Color.Red, Color.Yellow, Color.Pink, Color.Green, Color.Brown, Color.DarkCyan, Color.Beige };
-				int setColor = (bitmap.Width - lineWidth - offser) / 8;
+				Color[] colors = new Color[] { Color.Aqua, Color.Red, Color.Yellow, Color.Pink, Color.Green, Color.Brown, Color.DarkCyan, Color.Beige };
+				int setColor = (bitmap.Width - lineWidth * 2 - offser * 2) / 8 + 1;
 				for (int countX = offser + lineWidth; countX < bitmap.Width - offser - lineWidth; countX++)
 				{
-					bitmap.SetPixel(countX, countY, color[(countX - offser - lineWidth) / setColor]);
+					bitmap.SetPixel(countX, countY, colors[(countX - offser - lineWidth) / setColor]);
 				}
 			}
 			for (int countX = offser + lineWidth + 1; countX < bitmap.Width - offser - lineWidth - 1; countX++)
@@ -105,26 +108,25 @@ namespace FAMLineCreater
 			}
 			for (int countY = offser + lineWidth; countY < bitmap.Height - offser - lineWidth; countY++)
 			{
-				int count = 0;
-				Color color = judgeColorSetUserControl.GetColor();
-				int setColor = (bitmap.Width - lineWidth - offser) / line.Count;
-				int nextJudge = 0;
-				for (int countX = offser + lineWidth; countX < bitmap.Width - offser - lineWidth; countX++)
+				int setColor = (bitmap.Width - lineWidth * 2 - offser * 2) / line.Count + 1;
+				for (int countX = offser + lineWidth + setColor; countX < bitmap.Width - offser - lineWidth; countX+= setColor)
 				{
-					if ((countX - offser - lineWidth + 1) % setColor == 0)
-					{
-						if (countY == offser + lineWidth)
-							count++;
-						bitmap.SetPixel(countX, countY, color);
-					}
-					if((nextJudge > (countX - offser - lineWidth + 1) / setColor - 1 || (line[(countX - offser - lineWidth + 1) / setColor - 1] != -1 && (countX - offser - lineWidth + 1) / setColor - 1 < line[(countX - offser - lineWidth + 1) / setColor - 1])) && (countY == offser + lineWidth + offser + 20 || countY == (bitmap.Height - offser - offser - lineWidth - 20)))
-					{
-						if(line[(countX - offser - lineWidth + 1) / setColor - 1] > nextJudge)
-							nextJudge = line[(countX - offser - lineWidth + 1) / setColor - 1];
-						bitmap.SetPixel(countX, countY, color);
-					}
+					bitmap.SetPixel(countX, countY, color);
 				}
 			}
+			for (int countX = offser + lineWidth + 1; countX < bitmap.Width - offser - lineWidth; countX++)
+			{
+				if (bitmap.GetPixel(countX, offser + lineWidth) == color)
+					x.Add(countX);
+			}
+			foreach (int key in line.Keys)
+				if(line[key] > key)
+					for (int countX = x[key]; countX < x[line[key]]; countX++)
+					{
+						bitmap.SetPixel(countX, offser + lineWidth + offser + 20, color);
+						bitmap.SetPixel(countX, bitmap.Height - offser - offser - lineWidth - 20, color);
+						
+					}
 			pictureBox.Image = new Bitmap(bitmap, pictureBox.Size);
 			bitmap.Save("QQ.bmp");
 		}
@@ -135,7 +137,8 @@ namespace FAMLineCreater
 			FamLineCreaterTool famLineCreaterTool = new FamLineCreaterTool();
 			bitmap = famLineCreaterTool.FamDraw(bitmap, line, judgeColorSetUserControl.GetColor(), judgeValueUserControl.GetValue(), mappingColorSetUserControl.GetColor(), mappingValueUserControl.GetValue(), endColorSetUserControl.GetColor(), offsetValueUserControl.GetValue(), (System.Drawing.Drawing2D.DashStyle)Enum.Parse(typeof(System.Drawing.Drawing2D.DashStyle), dashTypeListBox.SelectedItem.ToString(), true));
 			pictureBox.Image = new Bitmap(bitmap, pictureBox.Size);
-			bitmap.Save("D:\\DrawQQ.bmp");
+			bitmap.Save("DrawQQ.bmp");
+			bitmap.Dispose();
 		}
 
 		private void judgeColorSetUserControl_Load(object sender, EventArgs e)

@@ -143,22 +143,34 @@ namespace FAMLineCreater
 		}
 		private void DrawFam()
 		{
+			int level = 0;
 			Pen pen = new Pen(mappingColor, mappingLineWidth);
 			Graphics graphics = Graphics.FromImage(bitmap);
 			pen.DashStyle = dashStyle;
 			int[] keys = line.Keys.ToArray();
 			for(int count = 0; count < keys.Length; count++)
 			{
-				if (keys[count] == -1 || line[keys[count]] == -2)
+				if (keys[count] == -1)
 					continue;
+				if (line[keys[count]] == -2)
+				{
+					level--;
+					continue;
+				}
+
 				if (line[keys[count]] == -1)
 				{
 					graphics.DrawLine(pen, lineX[keys[count]], rangeUpLineY, lineX[keys[count]], rangeDownLineY);
 				}
 				else
 				{
-					graphics.DrawRectangle(pen, lineX[keys[count]], upLineY, lineX[line[keys[count]]] - lineX[keys[count]], downLineY - upLineY);
-					line[line[keys[count]]] = -2;
+					int offset = 0;
+					if (int.TryParse(Math.Round((downLineY - upLineY) * 0.02, 0) + "", out offset))
+					{
+						graphics.DrawRectangle(pen, lineX[keys[count]], upLineY + offset * level, lineX[line[keys[count]]] - lineX[keys[count]], downLineY - upLineY - 2 * offset * level);
+						line[line[keys[count]]] = -2;
+						level++;
+					}
 				}
 			}
 			pen.Dispose();

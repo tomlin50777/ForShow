@@ -8,3 +8,4 @@ D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.ex
 D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.pdb
 D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.ColorSetUserControl.resources
 D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.ValueUserControl.resources
+D:\source\reposForShow\FAMLineCreater\FAMLineCreater\obj\Debug\FAMLineCreater.TestForm.resources
